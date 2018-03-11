@@ -1,7 +1,8 @@
 # ecartebleue-cli
 
-Command-line interface for VISA e-Carte Bleue service.  
-Generates a credit card number, an expiration date and a CCV.
+Command-line interface for VISA e-Carte Bleue service.
+
+Generates a credit card number, an expiration date and a CCV holding the specified amount.
 
 ## Requirements
 
@@ -9,7 +10,7 @@ You must have subscribed to this service from your bank. **Only tested with Cais
 
 ## Usage
 
-`./generate.sh [user] [password]`
+`./generate.sh [user] [password] [euros-amount]`
 
 ## Notes
 
