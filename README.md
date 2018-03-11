@@ -6,11 +6,17 @@ Generates a credit card number, an expiration date and a CCV holding the specifi
 
 ## Requirements
 
-You must have subscribed to this service from your bank. **Only tested with Caisse d'Epargne french bank at the moment.**
+- [CasperJS](http://docs.casperjs.org/en/latest/installation.html) **or** [Docker](https://www.docker.com/community-edition#/download) (which essentially runs CasperJS in a container)
+- Your eCarte-Bleue credentials (you must have subscribed to this service at your bank)
+
+## Tested banks
+
+<img src="https://i.imgur.com/F5df75E.jpg" width="40px" />
 
 ## Usage
 
-`./generate.sh [--json] [user] [password] [euros-amount]`
+- CasperJS: `casperjs generate.js [--json] [user] [password] [euros-amount]`
+- Docker: `./generate.sh [--json] [user] [password] [euros-amount]`
 
 ## Notes
 
