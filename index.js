@@ -1,4 +1,10 @@
+var utils = require('utils');
 var casper = require('casper').create();
+var outputStyle = 'human';
+var result = { amount: casper.cli.args[2] };
+
+if("json" in casper.cli.options) outputStyle = 'json';
+else casper.echo('Generating...');
 
 casper.start('https://service.e-cartebleue.com/fr/caisse-epargne/index');
 
@@ -33,17 +39,17 @@ casper.waitForSelector('#generated-code-dd', function() {
   if(!cc)
     this.die("Couldn't find CC.");
   else
-    this.echo("CC: " + cc[1]);
+    result.cc = cc[1];
 
   // EXP
   exp_html = this.getHTML('#content-expiration-date');
   exp_html = exp_html.replace(/\s/g, '');
-  regex = /<dd>([0-9]{2}\/[0-9]{2})<\/dd>/g;
+  regex = /<dd>([0-9]{2})\/([0-9]{2})<\/dd>/g;
   var exp = regex.exec(exp_html);
   if(!exp)
     this.die("Couldn't find EXP.");
   else
-    this.echo("EXP: " + exp[1]);
+    result.exp = [exp[1], exp[2]];
 
   // CCV
   ccv_html = this.getHTML('#content-cryptogramme');
@@ -53,9 +59,18 @@ casper.waitForSelector('#generated-code-dd', function() {
   if(!ccv)
     this.die("Couldn't find CCV.");
   else
-    this.echo("CCV: " + ccv[1]);
+    result.ccv = ccv[1];
+});
 
-  this.echo("Amount: " + this.cli.args[2]);
+casper.then(function() {
+  if(outputStyle == 'human') {
+    this.echo("CC: " + result.cc);
+    this.echo("EXP: " + result.exp.join('/'));
+    this.echo("CCV: " + result.ccv);
+    this.echo("AMOUNT (euros): " + result.amount);
+  } else if(outputStyle == 'json') {
+    utils.dump(result);
+  }
 });
 
 casper.run();
