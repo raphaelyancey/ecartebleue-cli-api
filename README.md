@@ -18,10 +18,6 @@ Generates a credit card number, an expiration date and a CCV holding the specifi
 - CasperJS: `casperjs generate.js [--json] [user] [password] [euros-amount]`
 - Docker: `./generate.sh [--json] [user] [password] [euros-amount]`
 
-## Notes
-
-Uses Docker to have a clean `casperjs` installation that can be painful to install on some systems (including mine).
-
 ## TODO
 
 - [ ] Handle 3DS if possible (or fallback at least)
