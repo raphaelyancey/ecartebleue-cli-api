@@ -18,5 +18,5 @@ Uses Docker to have a clean `casperjs` installation that can be painful to insta
 
 ## TODO
 
-[ ] Handle 3DS if possible (or fallback at least)
-[ ] JSON output option for programatic use
+- [ ] Handle 3DS if possible (or fallback at least)
+- [ ] JSON output option for programatic use
