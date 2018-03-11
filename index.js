@@ -14,8 +14,8 @@ casper.waitForSelector('#money-amount', function() {
   this.evaluate(function(amount) {
     document.querySelector('#money-amount').value = amount;
     document.querySelector('button[title="générer votre e-Numéro"]').click();
-  });
-}, casper.cli.args[2]);
+  }, casper.cli.args[2]);
+});
 
 casper.waitForSelector('#generated-code-dd', function() {
 
@@ -54,8 +54,8 @@ casper.waitForSelector('#generated-code-dd', function() {
     this.die("Couldn't find CCV.");
   else
     this.echo("CCV: " + ccv[1]);
-});
 
-casper.echo("Amount: " + casper.cli.args[2]);
+  this.echo("Amount: " + this.cli.args[2]);
+});
 
 casper.run();
