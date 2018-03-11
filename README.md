@@ -10,7 +10,7 @@ You must have subscribed to this service from your bank. **Only tested with Cais
 
 ## Usage
 
-`./generate.sh [user] [password] [euros-amount]`
+`./generate.sh [--json] [user] [password] [euros-amount]`
 
 ## Notes
 
@@ -19,4 +19,3 @@ Uses Docker to have a clean `casperjs` installation that can be painful to insta
 ## TODO
 
 - [ ] Handle 3DS if possible (or fallback at least)
-- [ ] JSON output option for programatic use
