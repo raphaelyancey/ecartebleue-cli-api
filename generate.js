@@ -9,6 +9,7 @@ else casper.echo('Generating...');
 casper.start('https://service.e-cartebleue.com/fr/caisse-epargne/index');
 
 casper.waitForSelector('#form-password-edit', function() {
+  this.log("Found login form");
   this.evaluate(function(user, password) {
     document.querySelector('#user-id').value = user;
     document.querySelector('#user-password').value = password;
@@ -16,14 +17,38 @@ casper.waitForSelector('#form-password-edit', function() {
   }, casper.cli.args[0], casper.cli.args[1]);
 });
 
-casper.waitForSelector('#money-amount', function() {
-  this.evaluate(function(amount) {
-    document.querySelector('#money-amount').value = amount;
-    document.querySelector('button[title="générer votre e-Numéro"]').click();
-  }, casper.cli.args[2]);
-});
+casper.waitForSelector('#money-amount',
+  
+  function() {
+    this.log("Logged!");
+    this.log("Found amount input");
+    this.evaluate(function(amount) {
+      document.querySelector('#money-amount').value = amount;
+      document.querySelector('button[title="générer votre e-Numéro"]').click();
+    }, casper.cli.args[2]);
+  },
+
+  function() { // Timeout ?
+    this.log("Login timed out");
+    var secure = { value: false };
+    this.evaluate(function(s) {
+      s.value = document.querySelector('#form-3ds-authentificate input[type="submit"]') !== null;
+    }, secure);
+    this.then(function() {
+      if(secure) {
+        msg = "3DS required and not yet implemented. Log in the classic way and retry.";
+        if(outputStyle == 'json') {
+          utils.dump({ error: msg });
+          this.exit(1);
+        }
+        else if(outputStyle == 'human') this.die(msg);
+      }
+    });
+  });
 
 casper.waitForSelector('#generated-code-dd', function() {
+
+  this.log("Generated!");
 
   var html = this.getHTML('body');
   var regex;
@@ -71,6 +96,7 @@ casper.then(function() {
   } else if(outputStyle == 'json') {
     utils.dump(result);
   }
+  this.exit(0);
 });
 
 casper.run();
