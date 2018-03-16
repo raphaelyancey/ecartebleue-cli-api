@@ -8,31 +8,28 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/generate', function (req, res) {
 
-    console.log(req);
-    res.json(req.body);
+    var params = Buffer.from(req.body.p, 'base64').toString();
+    params = JSON.parse(params);
 
-    // var params = Buffer.from(req.body.p, 'base64').toString();
-    // params = JSON.parse(params);
+    var credentials = {
+        user: params[0],
+        password: params[1]
+    };
 
-    // var credentials = {
-    //     user: params[0],
-    //     password: params[1]
-    // };
+    var args = [
+        'casperjs',
+        'generate.js',
+        '--json',
+        credentials.user,
+        credentials.password
+    ];
 
-    // var args = [
-    //     'casperjs',
-    //     'generate.js',
-    //     '--json',
-    //     credentials.user,
-    //     credentials.password
-    // ];
+    var cmd = shellescape(args);
 
-    // var cmd = shellescape(args);
-
-    // exec(cmd, function (error, stdout) {
-    //     if(error) res.end(error);
-    //     res.end(stdout);
-    // });
+    exec(cmd, function (error, stdout) {
+        if(error) res.end(error);
+        res.json(JSON.parse(stdout));
+    });
 });
 
 var server = app.listen(3000);

@@ -39,7 +39,7 @@ casper.waitForSelector('#money-amount',
         msg = "3DS required and not yet implemented. Log in the classic way and retry.";
         if(outputStyle == 'json') {
           utils.dump({ error: msg });
-          this.exit(1);
+          this.exit(0);
         }
         else if(outputStyle == 'human') this.die(msg);
       }
