@@ -21,14 +21,25 @@ app.post('/generate', function (req, res) {
         'generate.js',
         '--json',
         credentials.user,
-        credentials.password
+        credentials.password,
+        '10'
     ];
 
     var cmd = shellescape(args);
 
+    console.log('••• cmd', cmd)
+
     exec(cmd, function (error, stdout) {
-        if(error) res.end(error);
-        res.json(JSON.parse(stdout));
+        if(error) res.end('Error: ' + error);
+        else {
+            try {
+                var r = JSON.parse(stdout);
+            }
+            catch(error) {
+                var r = { error: error };
+            }
+            res.json(r);
+        }
     });
 });
 
