@@ -1,3 +1,5 @@
+console.log('Serving.');
+
 var app = require('express')();
 var bodyParser = require('body-parser');
 var exec = require('child_process').exec;
@@ -27,18 +29,29 @@ app.post('/generate', function (req, res) {
 
     var cmd = shellescape(args);
 
-    console.log('••• cmd', cmd)
+    console.log('Command: ', cmd)
 
     exec(cmd, function (error, stdout) {
-        if(error) res.end('Error: ' + error);
+        if(error) {
+            console.error(error);
+            res.status(500).json({ error: 'An error occurred.' });
+        }
         else {
             try {
-                var r = JSON.parse(stdout);
+                var generated = JSON.parse(stdout);
             }
-            catch(error) {
-                var r = { error: error };
+            catch(e) {
+                console.error("Couldn't parse response.");
+                res.status(500).end({ error: "Couldn't parse response." })
             }
-            res.json(r);
+
+            var s = generated.success ? 200 : 500;
+            var r = generated.data;
+
+            console.log('Status: ', s);
+            console.log('Result: ', r);
+
+            res.status(s).json(r);
         }
     });
 });

@@ -1,7 +1,7 @@
 var utils = require('utils');
 var casper = require('casper').create();
 var outputStyle = 'human';
-var result = { amount: casper.cli.args[2] };
+var result = { success: null, data: { amount: casper.cli.args[2] }};
 
 if("json" in casper.cli.options) outputStyle = 'json';
 else casper.echo('Generating...');
@@ -38,8 +38,8 @@ casper.waitForSelector('#money-amount',
       if(secure) {
         msg = "3DS required and not yet implemented. Log in the classic way and retry.";
         if(outputStyle == 'json') {
-          utils.dump({ error: msg });
-          this.exit(0);
+          utils.dump({ success: false, data: { error: msg }});
+          this.exit();
         }
         else if(outputStyle == 'human') this.die(msg);
       }
@@ -47,8 +47,6 @@ casper.waitForSelector('#money-amount',
   });
 
 casper.waitForSelector('#generated-code-dd', function() {
-
-  this.log("Generated!");
 
   var html = this.getHTML('body');
   var regex;
@@ -64,7 +62,7 @@ casper.waitForSelector('#generated-code-dd', function() {
   if(!cc)
     this.die("Couldn't find CC.");
   else
-    result.cc = cc[1];
+    result.data.cc = cc[1];
 
   // EXP
   exp_html = this.getHTML('#content-expiration-date');
@@ -74,7 +72,7 @@ casper.waitForSelector('#generated-code-dd', function() {
   if(!exp)
     this.die("Couldn't find EXP.");
   else
-    result.exp = [exp[1], exp[2]];
+    result.data.exp = [exp[1], exp[2]];
 
   // CCV
   ccv_html = this.getHTML('#content-cryptogramme');
@@ -84,7 +82,9 @@ casper.waitForSelector('#generated-code-dd', function() {
   if(!ccv)
     this.die("Couldn't find CCV.");
   else
-    result.ccv = ccv[1];
+    result.data.ccv = ccv[1];
+
+  result.success = true;
 });
 
 casper.then(function() {
@@ -96,7 +96,7 @@ casper.then(function() {
   } else if(outputStyle == 'json') {
     utils.dump(result);
   }
-  this.exit(0);
+  this.exit();
 });
 
 casper.run();
