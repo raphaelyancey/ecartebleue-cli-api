@@ -35,13 +35,23 @@ casper.waitForSelector('#money-amount',
       s.value = document.querySelector('#form-3ds-authentificate input[type="submit"]') !== null;
     }, secure);
     this.then(function() {
-      if(secure) {
+
+      // 3DS
+      if(secure.value) {
         msg = "3DS required and not yet implemented. Log in the classic way and retry.";
         if(outputStyle == 'json') {
           utils.dump({ success: false, data: { error: msg }});
           this.exit();
-        }
-        else if(outputStyle == 'human') this.die(msg);
+        } else if(outputStyle == 'human') this.die(msg);
+      }
+
+      // Other error (wrong password, etc.)
+      else {
+        msg = "Couldn't log you in. Are your eCarte Bleue credentials correct?";
+        if(outputStyle == 'json') {
+          utils.dump({ success: false, data: { error: msg }});
+          this.exit();
+        } else if(outputStyle == 'human') this.die(msg);
       }
     });
   });

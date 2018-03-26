@@ -10,12 +10,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/generate', function (req, res) {
 
-    var params = Buffer.from(req.body.p, 'base64').toString();
-    params = JSON.parse(params);
+    var amount = req.body.a;
+    var credentials = Buffer.from(req.body.p, 'base64').toString();
+    credentials = JSON.parse(credentials);
 
     var credentials = {
-        user: params[0],
-        password: params[1]
+        user: credentials[0],
+        password: credentials[1]
     };
 
     var args = [
@@ -24,7 +25,7 @@ app.post('/generate', function (req, res) {
         '--json',
         credentials.user,
         credentials.password,
-        '10'
+        amount
     ];
 
     var cmd = shellescape(args);
