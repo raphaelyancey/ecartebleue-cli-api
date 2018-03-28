@@ -1,8 +1,12 @@
 # ecartebleue-cli
 
-Command-line interface for VISA e-Carte Bleue service.
+> **UNOFFICIAL** You should not run, use or rely on this code without fully understanding it and its implications.
+
+Command-line interface and API for VISA e-Carte Bleue service.
 
 Generates a credit card number, an expiration date and a CCV holding the specified amount.
+
+**Ideally used with the [ecartebleue-extension](https://github.com/raphaelyancey/ecartebleue-extension) WebExtension in your browser for handy one-click generation.**
 
 ## Requirements
 
@@ -11,17 +15,34 @@ Generates a credit card number, an expiration date and a CCV holding the specifi
 
 ## Tested banks
 
-<img src="https://i.imgur.com/F5df75E.jpg" width="40px" />
+<img src="https://i.imgur.com/F5df75E.jpg" width="40px" alt="Caisse d'Épargne" />
 
 ## Usage
 
 - CasperJS: `casperjs generate.js [--json] [user] [password] [euros-amount]`
-- Docker: `./generate.sh [--json] [user] [password] [euros-amount]`
+- Docker (one-line generation): `./generate.sh [--json] [user] [password] [euros-amount]`
+- Docker (API server): `./generate.sh [--json] [user] [password] [euros-amount]`
+- In your browser (WebExtension): [ecartebleue-extension](https://github.com/raphaelyancey/ecartebleue-extension) 
+
+## API
+
+Listening on port `3000`.
+
+`POST /generate`
+```
+    {
+        a: (integer) Amount in euros,
+        p: (string) BASE64 encoded JSON stringified array of credentials [username, password]
+    }
+```
 
 ## Notes
 
-Uses Docker to have a clean `casperjs` installation that can be painful to install on some systems (including mine).
+I repeat, you should **NOT** run, use or rely on this code without fully understanding it and its implications.
+
+The bank card numbers you will generate really hold money that can be spend (like, in the real world). **I won't take responsibility for any use of this code, it's just a proof of concept.**
 
 ## TODO
 
-- [ ] Handle 3DS if possible (or fallback at least)
+- [ ] Handle 3DS challenge
+- [ ] Simplify credentials parameters
