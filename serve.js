@@ -50,7 +50,7 @@ app.post('/generate', function (req, res) {
             var r = generated.data;
 
             console.log('Status: ', s);
-            console.log('Result: ', r);
+            //console.log('Result: ', r);
 
             res.status(s).json(r);
         }
