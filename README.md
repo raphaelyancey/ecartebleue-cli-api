@@ -1,4 +1,4 @@
-# ecartebleue-cli
+# ecartebleue-cli-api
 
 > **UNOFFICIAL** You should not run, use or rely on this code without fully understanding it and its implications.
 
