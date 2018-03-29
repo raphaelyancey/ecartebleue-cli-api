@@ -1,6 +1,6 @@
 FROM vitr/casperjs
 
-WORKDIR /home/casperjs-tests
+WORKDIR /home/ecb-api
 
 RUN apt-get update
 RUN apt-get install -y curl
@@ -10,7 +10,7 @@ RUN apt-get install -y build-essential nodejs
 RUN npm init -f -y
 RUN npm install express body-parser shell-escape forever
 
-ENV NODE_PATH /home/casperjs-tests/node_modules
+ENV NODE_PATH /home/ecb-api/node_modules
 
 EXPOSE 3000
 
