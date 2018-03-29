@@ -19,10 +19,13 @@ Generates a credit card number, an expiration date and a CCV holding the specifi
 
 ## Usage
 
-- CasperJS: `casperjs generate.js [--json] [user] [password] [euros-amount]`
-- Docker (one-line generation): `./generate.sh [--json] [user] [password] [euros-amount]`
-- Docker (API server): `./generate.sh [--json] [user] [password] [euros-amount]`
-- In your browser (WebExtension): [ecartebleue-extension](https://github.com/raphaelyancey/ecartebleue-extension) 
+- Generation
+  - CasperJS: `casperjs generate.js [--json] [user] [password] [euros-amount]`
+  - Docker (one-liner): `./generate.sh [--json] [user] [password] [euros-amount]`
+  - In your browser (WebExtension): [ecartebleue-extension](https://github.com/raphaelyancey/ecartebleue-extension) (requires a running API instance)
+
+- API server
+  - Docker: `docker run -p 3000:3000 ryancey/ecartebleue-api -d`
 
 ## API
 
@@ -30,10 +33,22 @@ Listening on port `3000`.
 
 `POST /generate`
 ```
-    {
-        a: (integer) Amount in euros,
-        p: (string) BASE64 encoded JSON stringified array of credentials [username, password]
-    }
+{
+    a: (integer) Amount in euros,
+    p: (string) BASE64-encoded JSON-stringified array of credentials [username, password]
+}
+```
+
+`200 OK`
+```
+{
+    cc: (string) Card number,
+    exp: [
+        (string) Expiration month,
+        (string) Expiration year,
+    ],
+    ccv: (string) Card CCV
+}
 ```
 
 ## Notes
