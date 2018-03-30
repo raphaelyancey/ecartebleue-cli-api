@@ -26,7 +26,8 @@ Generates a credit card number, an expiration date and a CCV holding the specifi
 
 - API server
   - Docker: `docker run -p 3000:3000 ryancey/ecartebleue-api`
-  - Docker (local): `docker build -t ecartebleue-api .; docker run -p 3000:3000 ecartebleue-api`
+  - Docker (local build): `docker build -t ecartebleue-api .; docker run -p 3000:3000 ecartebleue-api`
+  - [now.sh](https://zeit.co/now): `now --docker /path/to/local/repo` (instant, free, secured deployment)
 
 ## API
 
