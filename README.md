@@ -25,7 +25,7 @@ Generates a credit card number, an expiration date and a CCV holding the specifi
   - In your browser (WebExtension): [ecartebleue-extension](https://github.com/raphaelyancey/ecartebleue-extension) (requires a running API instance)
 
 - API server
-  - Docker: `docker run -p 3000:3000 ryancey/ecartebleue-api -d`
+  - Docker: `docker run -p 3000:3000 ryancey/ecartebleue-api`
 
 ## API
 
