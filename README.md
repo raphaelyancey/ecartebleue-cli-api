@@ -58,6 +58,12 @@ I repeat, you should **NOT** run, use or rely on this code without fully underst
 
 The bank card numbers you will generate really hold money that can be spend (like, in the real world). **I won't take responsibility for any use of this code, it's just a proof of concept.**
 
+## Development
+
+`docker build -t ecartebleue-api .`
+`npm install`
+`docker run -p 3000:3000 -v /path/to/local/repo:/home/ecb-api ecartebleue-api`
+
 ## TODO
 
 - [ ] Handle 3DS challenge
